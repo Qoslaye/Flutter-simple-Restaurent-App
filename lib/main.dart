@@ -17,11 +17,11 @@ class RestaurantApp extends StatelessWidget {
 class RestaurantPage extends StatelessWidget {
   final List<Map<String, String>> foodItems = [
     {"name": "Pizza", "image": "assets/pizza.jpg"},
-    {"name": "Burger", "image": "assets/burger.jpg"},
-    {"name": "Steak", "image": "assets/steak.jpg"},
+    {"name": "Hum Burger", "image": "assets/burger.jpg"},
+    {"name": "Hilib", "image": "assets/steak.jpg"},
     {"name": "Sushi", "image": "assets/sushi.jpg"},
     {"name": "Salad", "image": "assets/salad.jpg"},
-    {"name": "Pasta", "image": "assets/pasta.jpg"},
+    {"name": "Italian Pasta", "image": "assets/pasta.jpg"},
   ];
 
   @override
@@ -38,23 +38,21 @@ class RestaurantPage extends StatelessWidget {
           ),
         ],
         backgroundColor: Colors.red,
-        iconTheme: IconThemeData(color: Colors.white), // Set icon color to white
-        titleTextStyle: TextStyle(color: Colors.white, fontSize: 20), // Set title text color to white
+        iconTheme: IconThemeData(color: Colors.white),
+        titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
       ),
       body: Container(
         color: Colors.red.shade100,
         padding: EdgeInsets.all(16.0),
-        child: GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            mainAxisSpacing: 16.0,
-            crossAxisSpacing: 16.0,
-          ),
+        child: ListView.builder(
           itemCount: foodItems.length,
           itemBuilder: (context, index) {
-            return FoodCard(
-              name: foodItems[index]['name']!,
-              image: foodItems[index]['image']!,
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 16.0),
+              child: FoodCard(
+                name: foodItems[index]['name']!,
+                image: foodItems[index]['image']!,
+              ),
             );
           },
         ),
@@ -72,21 +70,47 @@ class FoodCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+      elevation: 6,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0),
+      ),
+      child: Row(
         children: [
-          Expanded(
+          ClipRRect(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(16.0),
+              bottomLeft: Radius.circular(16.0),
+            ),
             child: Image.asset(
               image,
+              width: 120,
+              height: 120,
               fit: BoxFit.cover,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              name,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    'Delicious $name to satisfy your cravings!',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey.shade600,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
